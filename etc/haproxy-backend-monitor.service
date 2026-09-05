@@ -1,0 +1,39 @@
+[Unit]
+Description=HAProxy Backend Stability Monitor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/haproxy-watchdog
+EnvironmentFile=/opt/haproxy-watchdog/etc/haproxy-backend-monitor.env
+ExecStart=/usr/bin/env python3 /opt/haproxy-watchdog/bin/haproxy_backend_monitor.py \
+  --socket ${SOCKET} \
+  --interval ${INTERVAL} \
+  --window ${WINDOW} \
+  --flap-threshold ${FLAP_THRESHOLD} \
+  --chkfail-threshold ${CHKFAIL_THRESHOLD} \
+  --chkdown-threshold ${CHKDOWN_THRESHOLD} \
+  --5xx-threshold ${RESP5XX_THRESHOLD} \
+  --critical-flap-threshold ${CRITICAL_FLAP_THRESHOLD} \
+  --critical-chkfail-threshold ${CRITICAL_CHKFAIL_THRESHOLD} \
+  --critical-chkdown-threshold ${CRITICAL_CHKDOWN_THRESHOLD} \
+  --critical-5xx-threshold ${CRITICAL_5XX_THRESHOLD} \
+  --only-bad ${ONLY_BAD} \
+  --telegram-bot-token ${TELEGRAM_BOT_TOKEN} \
+  --telegram-chat-id ${TELEGRAM_CHAT_ID} \
+  --alert-cooldown ${ALERT_COOLDOWN} \
+  --critical-alert-cooldown ${CRITICAL_ALERT_COOLDOWN}
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+
+# Journald is the recommended default.
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=haproxy-backend-monitor
+
+[Install]
+WantedBy=multi-user.target

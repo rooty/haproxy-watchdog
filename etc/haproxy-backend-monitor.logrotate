@@ -1,0 +1,10 @@
+/var/log/haproxy-backend-monitor.log {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 root adm
+    copytruncate
+}

@@ -1,0 +1,38 @@
+[Unit]
+Description=HAProxy Backend Stability Monitor (file log)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/opt/haproxy-watchdog
+EnvironmentFile=/opt/haproxy-watchdog/etc/haproxy-backend-monitor.env
+ExecStart=/bin/bash -lc '/usr/bin/env python3 /opt/haproxy-watchdog/bin/haproxy_backend_monitor.py \
+  --socket ${SOCKET} \
+  --interval ${INTERVAL} \
+  --window ${WINDOW} \
+  --flap-threshold ${FLAP_THRESHOLD} \
+  --chkfail-threshold ${CHKFAIL_THRESHOLD} \
+  --chkdown-threshold ${CHKDOWN_THRESHOLD} \
+  --5xx-threshold ${RESP5XX_THRESHOLD} \
+  --critical-flap-threshold ${CRITICAL_FLAP_THRESHOLD} \
+  --critical-chkfail-threshold ${CRITICAL_CHKFAIL_THRESHOLD} \
+  --critical-chkdown-threshold ${CRITICAL_CHKDOWN_THRESHOLD} \
+  --critical-5xx-threshold ${CRITICAL_5XX_THRESHOLD} \
+  --only-bad ${ONLY_BAD} \
+  --telegram-bot-token ${TELEGRAM_BOT_TOKEN} \
+  --telegram-chat-id ${TELEGRAM_CHAT_ID} \
+  2>&1 | tee -a /var/log/haproxy-backend-monitor.log'
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+
+# Primary logs go to file via tee; journal still gets unit lifecycle events.
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=haproxy-backend-monitor-filelog
+
+[Install]
+WantedBy=multi-user.target

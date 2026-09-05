@@ -1,0 +1,30 @@
+# Разработка
+
+## Структура кода
+
+- `bin/haproxy_backend_monitor.py` — единственный модуль с логикой.
+- `Monitor` — основной класс, управляющий циклом опроса и алертами.
+- `parse_stat()` — парсинг CSV от HAProxy.
+- `classify()` — классификация состояния.
+- `send_telegram()` — отправка уведомлений.
+
+## Правила внесения изменений
+
+1. Не добавляйте внешние зависимости (только stdlib).
+2. Покрывайте изменения тестами в `tests/`.
+3. Запускайте `PYTHONPATH=bin python -m unittest discover -s tests -p "*.py"`.
+4. Не коммитьте реальные токены Telegram.
+
+## Архитектурные особенности
+
+- Все пороги и токены передаются через `argparse.Namespace` (объект `cfg`).
+- `Monitor` хранит историю в `prev_snaps`, `win_counters` и `backend_prev_level`.
+- Cooldown реализован через `last_alert_time[level]`.
+
+## Отладка
+
+Запуск в консоли:
+
+```bash
+python3 bin/haproxy_backend_monitor.py --socket /run/haproxy/haproxy.sock --window 60 --interval 5
+```
