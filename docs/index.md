@@ -208,6 +208,8 @@ PYTHONPATH=bin python -m unittest discover -s tests -p "*.py"
 
 Подробнее в [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
+Хотите помочь проекту? Смотрите [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ---
 
 ## Лицензия
