@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.python-version
+
+# Тесты и покрытие
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Системные файлы
+*.log
+*.pid
+
+# Конфигурация и секреты (никогда не коммитить!)
+/etc/haproxy-backend-monitor.env.local
+*.local.env
+.env
+.secrets

@@ -1,5 +1,8 @@
 # haproxy-watchdog
 
+[![CI](https://github.com/rooty/haproxy-watchdog/actions/workflows/ci.yml/badge.svg)](https://github.com/rooty/haproxy-watchdog/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 Монитор стабильности бэкендов HAProxy с алертами в Telegram.
 
 Скрипт на чистом Python 3 (только стандартная библиотека) подключается к UNIX-сокету HAProxy, собирает статистику по серверам бэкендов, вычисляет дельты внутри скользящего окна и отправляет уведомления при переходе состояния в `warning` или `critical`, а также при восстановлении.
@@ -209,4 +212,4 @@ PYTHONPATH=bin python -m unittest discover -s tests -p "*.py"
 
 ## Лицензия
 
-MIT / Unlicense — уточните в `LICENSE` при необходимости.
+Проект распространяется под лицензией [MIT](LICENSE).
