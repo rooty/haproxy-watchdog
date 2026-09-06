@@ -117,6 +117,7 @@ sudo systemctl enable --now haproxy-backend-monitor
 | `CRITICAL_CHKFAIL_THRESHOLD` | Порог `chkfail` для critical | `4` |
 | `CRITICAL_CHKDOWN_THRESHOLD` | Порог `chkdown` для critical | `2` |
 | `CRITICAL_5XX_THRESHOLD` | Порог `hrsp_5xx` для critical | `20` |
+| `DURATION` | Остановиться через N сек (`0` = всегда) | `0` |
 | `ALERT_COOLDOWN` | Cooldown warning, сек | `300` |
 | `CRITICAL_ALERT_COOLDOWN` | Cooldown critical, сек | `120` |
 | `ONLY_BAD` | Печатать только проблемные строки | `1` |
@@ -135,6 +136,14 @@ sudo systemctl enable --now haproxy-backend-monitor
 python3 bin/haproxy_backend_monitor.py \
   --socket /run/haproxy/haproxy.sock \
   --window 600 --interval 5
+```
+
+Для разовой проверки можно остановить монитор через N секунд:
+
+```bash
+python3 bin/haproxy_backend_monitor.py \
+  --socket /run/haproxy/haproxy.sock \
+  --window 60 --interval 5 --duration 120
 ```
 
 Управление сервисом:

@@ -17,6 +17,7 @@
 | `CRITICAL_CHKFAIL_THRESHOLD` | Critical: дельта `chkfail` | `4` |
 | `CRITICAL_CHKDOWN_THRESHOLD` | Critical: дельта `chkdown` | `2` |
 | `CRITICAL_5XX_THRESHOLD` | Critical: дельта `hrsp_5xx` | `20` |
+| `DURATION` | Остановиться через N секунд, `0` = работать бесконечно | `0` |
 | `ALERT_COOLDOWN` | Cooldown warning алертов, сек | `300` |
 | `CRITICAL_ALERT_COOLDOWN` | Cooldown critical алертов, сек | `120` |
 | `ONLY_BAD` | `1` — показывать только проблемные бэкенды в консоли | `1` |

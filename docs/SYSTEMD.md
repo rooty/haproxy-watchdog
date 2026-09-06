@@ -6,29 +6,12 @@
 
 Логи отправляются в journald.
 
-```ini
-[Unit]
-Description=HAProxy Backend Stability Monitor
-After=network-online.target
-Wants=network-online.target
+Unit-файл передаёт скрипту все параметры из `etc/haproxy-backend-monitor.env`, включая необязательный `DURATION` (если задан — монитор остановится через N секунд).
 
-[Service]
-Type=simple
-User=root
-Group=root
-WorkingDirectory=/opt/haproxy-watchdog
-EnvironmentFile=/opt/haproxy-watchdog/etc/haproxy-backend-monitor.env
-ExecStart=/usr/bin/env python3 /opt/haproxy-watchdog/bin/haproxy_backend_monitor.py ...
-Restart=always
-RestartSec=5
-NoNewPrivileges=true
-StandardOutput=journal
-StandardError=journal
-SyslogIdentifier=haproxy-backend-monitor
+Актуальное содержимое unit-файлов смотрите в репозитории:
 
-[Install]
-WantedBy=multi-user.target
-```
+- `etc/haproxy-backend-monitor.service`
+- `etc/haproxy-backend-monitor-filelog.service`
 
 ## haproxy-backend-monitor-filelog.service
 
