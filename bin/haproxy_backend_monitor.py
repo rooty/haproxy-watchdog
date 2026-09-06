@@ -221,8 +221,9 @@ def send_telegram(cfg: argparse.Namespace, text: str, last_alert_time: Dict[str,
     now = time.monotonic()
     cooldown = cfg.critical_alert_cooldown if level == "critical" else cfg.alert_cooldown
 
-    # Check for cooldown
-    if (last_alert_time.get(level, 0) + cooldown) > now:
+    # Check for cooldown (no timestamp yet → first alert is always allowed)
+    last = last_alert_time.get(level)
+    if last is not None and (last + cooldown) > now:
         print(f"[send_telegram] Skipped {level} alert due to cooldown", file=sys.stderr)
         return
 
@@ -252,7 +253,7 @@ class Monitor:
         self.prev_snaps: Dict[str, Snap] = {}
         self.win_counters: Dict[str, WinCounters] = {}
         self.backend_prev_level: Dict[str, str] = {}
-        self.last_alert_time: Dict[str, float] = {"warning": 0, "critical": 0}
+        self.last_alert_time: Dict[str, float] = {}
         self.window_start = time.monotonic()
         self._running = True
         signal.signal(signal.SIGTERM, self._stop)
